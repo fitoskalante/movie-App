@@ -1,7 +1,15 @@
-import { Card, Badge, CardDeck } from "react-bootstrap";
+import { Button, Card, Badge, CardDeck } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
+import ReactModal from 'react-modal'
+import YouTube from '@u-wave/react-youtube';
+
+
 
 export default function CardMovie(props) {
+  const [key, setKey] =useState(null)
+  const [modal, setModal] = useState(false)
+
+
   const renderBadges = movie => {
     return (
       <div>
@@ -27,7 +35,7 @@ export default function CardMovie(props) {
       const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&append_to_response=videos`;
       let response = await fetch(url);
       let data = await response.json();
-      const youtubeKeys = data.videos.results[0].key;
+      const youtubeKeys = data.videos.results[0] && data.videos.results[0].key;
       setYoutubeKey(youtubeKeys);
     };
 
@@ -37,26 +45,51 @@ export default function CardMovie(props) {
 
     return (
       <div className="mt-2 mb-3">
-        <button
+        {/* <button
           className="btn btn-danger"
-          href={`https://www.youtube.com/embed/${youtubeKey}`}
         >
           <a
             className="text-white"
             href={`https://www.youtube.com/embed/${youtubeKey}`}
-            target="_blank"
+            // target="_blank"
           >
             Watch Trailer
           </a>
-        </button>
+        </button> */}
       </div>
     );
   }
 
   const poster = "https://image.tmdb.org/t/p/original/";
+  const getKey = async movieId => {
+    const API_KEY = "d34264194788a6c91b6a55fe90f61988";
+    const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&append_to_response=videos`;
+    let response = await fetch(url);
+    let data = await response.json();
+    const a = data.videos.results[0].key;
+    console.log("what is key",a)
+    setKey(a)
+  };
 
+  function toggleModal() {
+    setModal(!modal)
+
+  } 
   return (
     <>
+      <ReactModal  onRequestClose={()=>setModal(!modal)} className="Modal" overlayClassName="Overlay" isOpen={modal}>
+            
+            <YouTube className="youtubebox"
+              video={ key && key}
+              autoplay
+              height= '90%'
+              width='90%'
+              allowFullscreen='true'
+              modestBranding='false'
+               />
+            
+
+          </ReactModal>
       <CardDeck className="text-dark">
         {props.movies.map(movie => {
           return (
@@ -73,6 +106,7 @@ export default function CardMovie(props) {
                 </Card.Text>
               </Card.Body>
               <span>{renderBadges(movie)}</span>
+              <button className="btn btn-danger" onClick={()=>toggleModal(getKey(movie.id))} > Play Trailer </button>
               <RenderTrailer movieId={movie.id} />
 
               <Card.Footer>
