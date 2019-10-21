@@ -1,22 +1,51 @@
+html, body {
+  width: 100% !important;
+}
+
 .App {
   text-align: center;
+  width: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
+.main-content {
+  background-color: lightgray;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.App-link {
-  color: #09d3ac;
+.img-card {
+  min-height: 400px !important;
+  object-fit: cover;
+  transition: 0.5s ease;
+}
+
+.card-style:hover .img-card {
+  object-fit: cover;
+  transform: scale(1.02);
+}
+
+.card-style {
+  min-width: 300px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  transition: 0.5s ease;
+  overflow: hidden;
+  overflow-x: hidden;
+  border-radius: 20px;
+}
+
+.card-style:hover {
+  transform: scale(1.005);
+  box-shadow: 0 5px 10px #bbb;
+}
+
+.card-text-style {
+  height: 200px;
+  border-bottom: 1px solid lightgray;
+  overflow: scroll;
+}
+
+.sidebar {
+  height: 100vh;
+  z-index: 0;
 }
