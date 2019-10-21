@@ -8,12 +8,14 @@ import { Button } from "react-bootstrap";
 import "./App.css";
 
 function App() {
+  const [key , setKey] = useState(null)
   const [movies, setMovies] = useState([]);
   const [results, setResults] = useState([]);
   const [genreList, setGenreList] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageNumberForSearch, setPageNumberForSearch] = useState(1);
 
+  
   const getData = async () => {
     const API_KEY = "d34264194788a6c91b6a55fe90f61988";
     const url = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=${pageNumber}`;
@@ -24,6 +26,7 @@ function App() {
     setMovies(newData);
     setPageNumber(pageNumber + 1);
   };
+
 
   const getGenreList = async () => {
     const API_KEY = "d34264194788a6c91b6a55fe90f61988";
@@ -48,6 +51,9 @@ function App() {
     getGenreList();
   }, []);
 
+ 
+  console.log("test key",key)
+
   if (movies === []) {
     return (
       <div className="big-container loader-container d-flex flex-column justify-content-center align-items-center">
@@ -62,6 +68,8 @@ function App() {
         <Sidebar />
 
         <div className="main-content container-fluid d-flex flex-column col-lg-10 p-3">
+         
+        
           <CardMovie
             movies={movies}
             genreList={genreList}
